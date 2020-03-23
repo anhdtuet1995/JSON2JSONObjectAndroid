@@ -17,6 +17,8 @@ import javax.swing.text.AbstractDocument;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.anhdt.convert.core.CoreJSONInput;
+
 public class CorePanel extends JPanel {
 	
 	private JPanel panelSource;
@@ -26,10 +28,10 @@ public class CorePanel extends JPanel {
     private JTextArea source;
     private JTextArea result;
     private JButton convertBtn;
-    private Core core;
+    private CoreJSONInput core;
     public CorePanel() {
     	
-    	core = new Core();
+    	core = new CoreJSONInput();
     	
     	panelSource = new JPanel(new BorderLayout());
     	labelSource = new JLabel("Enter JSON: ");

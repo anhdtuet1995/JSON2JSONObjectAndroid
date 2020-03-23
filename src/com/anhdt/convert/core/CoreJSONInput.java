@@ -1,4 +1,4 @@
-package com.anhdt.convert;
+package com.anhdt.convert.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Core {
+public class CoreJSONInput {
 	private HashMap<String, Integer> countVariable = new HashMap<String, Integer>();
 	private char countVar = 'a' - 1;
 	private StringBuilder result = new StringBuilder();
@@ -52,7 +52,7 @@ public class Core {
 					result.append("boolean " + nodeName + " = " + parentNode + ".optBoolean(\"" + key +"\");\n");
 				} else if (value instanceof String) {
 					result.append("String " + nodeName + " = " + parentNode + ".optString(\"" + key +"\");\n");
-				} else if (value instanceof String) {
+				} else if (value instanceof Double) {
 					result.append("double " + nodeName + " = " + parentNode + ".optDouble(\"" + key +"\");\n");
 				}  else if (value instanceof Long) {
 					result.append("long " + nodeName + " = " + parentNode + ".optLong(\"" + key +"\");\n");
