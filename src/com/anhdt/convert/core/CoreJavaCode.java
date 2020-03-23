@@ -1,6 +1,8 @@
 package com.anhdt.convert.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -12,15 +14,13 @@ import com.anhdt.parser.RegularExpressions;
 import com.anhdt.parser.VariableInfo;
 
 public class CoreJavaCode {
-	
+
 	private static final String SERIALIZABLE = "@SerializedName(";
 	private static final String EXTENDS = "extends";
 
-	private static List<ClassInfo> classInfos = new ArrayList<ClassInfo>();
-	private static List<Integer> classStartIndexs = new ArrayList<Integer>();
-	private static List<Integer> classEndIndexs = new ArrayList<Integer>();
-	
-	public static int findEndOfBlock(String source, int start) {
+	private List<ClassInfo> classInfos = new ArrayList<ClassInfo>();
+
+	public int findEndOfBlock(String source, int start) {
 		Stack<Character> stackCharacter = new Stack<Character>();
 		for (int i = start; i < source.length(); i++) {
 			if (source.charAt(i) == '{') {
@@ -47,8 +47,8 @@ public class CoreJavaCode {
 		}
 		return -1;
 	}
-	
-	public static int getClassIndexContainsVariable(int varIndex) {
+
+	public int getClassIndexContainsVariable(int varIndex) {
 		int classIndex = 0;
 		int min = Integer.MAX_VALUE;
 		for (int i = 0; i < classInfos.size(); i++) {
@@ -60,203 +60,9 @@ public class CoreJavaCode {
 		}
 		return classIndex;
 	}
-	
-	public static void main(String[] args) {
-		String input = "public class TokenHistoryResponse {\r\n" + 
-				"    @SerializedName(\"status\")\r\n" + 
-				"    @Expose\r\n" + 
-				"    private int status;\r\n" + 
-				"    @SerializedName(\"message\")\r\n" + 
-				"    @Expose\r\n" + 
-				"    private String message;\r\n" + 
-				"    @SerializedName(\"code\")\r\n" + 
-				"    @Expose\r\n" + 
-				"    private int code;\r\n" + 
-				"    @SerializedName(\"data\")\r\n" + 
-				"    @Expose\r\n" + 
-				"    private TokenData tokenData;\r\n" + 
-				"    @SerializedName(\"items\")\r\n" + 
-				"    @Expose\r\n" + 
-				"    @ColumnInfo(name = \"items\")\r\n" + 
-				"    public List<List<HelloBabe>> items;\r\n" + 
-				"    \r\n" + 
-				"    public TokenHistoryResponse(JSONObject jsonObject) throws JSONException {\r\n" + 
-				"        super(jsonObject);\r\n" + 
-				"        int code = jsonObject.optInt(\"code\");\r\n" + 
-				"        this.tokenData = new TokenData(jsonObject.optDouble(\"abab\"));\r\n" + 
-				"        if (jsonObject.has(\"abc\")) {\r\n" + 
-				"\r\n" + 
-				"        }\r\n" + 
-				"        JSONArray jsonArray = jsonObject.getJSONArray();\r\n" + 
-				"        for (int i = 0; i < jsonArray.length(); i++) {\r\n" + 
-				"            JSONObject obj = jsonArray.getJSONObject(i);\r\n" + 
-				"\r\n" + 
-				"        }\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public int getStatus() {\r\n" + 
-				"        return status;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public void setStatus(int status) {\r\n" + 
-				"        this.status = status;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public String getMessage() {\r\n" + 
-				"        return message;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public void setMessage(String message) {\r\n" + 
-				"        this.message = message;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public int getCode() {\r\n" + 
-				"        return code;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public void setCode(int code) {\r\n" + 
-				"        this.code = code;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public TokenData getTokensData() {\r\n" + 
-				"        return tokenData;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public void setDetailTokens(TokenData detailTokens) {\r\n" + 
-				"        this.tokenData = detailTokens;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public List<DetailToken> getTokenDetails() {\r\n" + 
-				"        if (tokenData != null) {\r\n" + 
-				"            return tokenData.detailTokens;\r\n" + 
-				"        }\r\n" + 
-				"        return null;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public float getTokenTotal() {\r\n" + 
-				"        if (tokenData != null) {\r\n" + 
-				"            return tokenData.tokenTotal;\r\n" + 
-				"        }\r\n" + 
-				"        return 0f;\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public class TokenData {\r\n" + 
-				"        @SerializedName(\"token_total\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private float tokenTotal;\r\n" + 
-				"        @SerializedName(value=\"lst_group_token\", alternate={\"list\", \"lst_token_receive\"})\r\n" + 
-				"        @Expose\r\n" + 
-				"        private List<DetailToken> detailTokens;\r\n" + 
-				"\r\n" + 
-				"        public float getTokenTotal() {\r\n" + 
-				"            return tokenTotal;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setTokenTotal(float tokenTotal) {\r\n" + 
-				"            this.tokenTotal = tokenTotal;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public List<DetailToken> getDetailTokens() {\r\n" + 
-				"            return detailTokens;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setDetailTokens(List<DetailToken> detailTokens) {\r\n" + 
-				"            this.detailTokens = detailTokens;\r\n" + 
-				"        }\r\n" + 
-				"    }\r\n" + 
-				"\r\n" + 
-				"    public class DetailToken {\r\n" + 
-				"        @SerializedName(\"group_id\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private int groupId;\r\n" + 
-				"        @SerializedName (\"log_type\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private String logType;\r\n" + 
-				"        @SerializedName(\"group_key\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private String groupKey;\r\n" + 
-				"        @SerializedName(value = \"group_title\", alternate = {\"title\"})\r\n" + 
-				"        @Expose\r\n" + 
-				"        private String groupTitle;\r\n" + 
-				"        @SerializedName(\"post_id\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private String postId;\r\n" + 
-				"        @SerializedName(\"counter\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private int counter;\r\n" + 
-				"        @SerializedName(\"token_value\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private float tokenValue;\r\n" + 
-				"        @SerializedName(\"last_updated_timestamp\")\r\n" + 
-				"        @Expose\r\n" + 
-				"        private long lastUpdateTime;\r\n" + 
-				"\r\n" + 
-				"        public int getGroupId() {\r\n" + 
-				"            return groupId;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setGroupId(int groupId) {\r\n" + 
-				"            this.groupId = groupId;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public String getLogType() {\r\n" + 
-				"            return logType;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setLogType(String logType) {\r\n" + 
-				"            this.logType = logType;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public String getGroupKey() {\r\n" + 
-				"            return groupKey;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setGroupKey(String groupKey) {\r\n" + 
-				"            this.groupKey = groupKey;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public String getGroupTitle() {\r\n" + 
-				"            return groupTitle;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setGroupTitle(String groupTitle) {\r\n" + 
-				"            this.groupTitle = groupTitle;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public String getPostId() {\r\n" + 
-				"            return postId;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setPostId(String postId) {\r\n" + 
-				"            this.postId = postId;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public int getCounter() {\r\n" + 
-				"            return counter;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setCounter(int counter) {\r\n" + 
-				"            this.counter = counter;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public float getTokenValue() {\r\n" + 
-				"            return tokenValue;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setTokenValue(float tokenValue) {\r\n" + 
-				"            this.tokenValue = tokenValue;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public long getLastUpdateTime() {\r\n" + 
-				"            return lastUpdateTime;\r\n" + 
-				"        }\r\n" + 
-				"\r\n" + 
-				"        public void setLastUpdateTime(long lastUpdateTime) {\r\n" + 
-				"            this.lastUpdateTime = lastUpdateTime;\r\n" + 
-				"        }\r\n" + 
-				"    }\r\n" + 
-				"}";
-		
+
+	public String getResult(String input) {
+
 		//Handle class
 		Matcher matcher = Pattern.compile(RegularExpressions.CLASS_REGEX).matcher(input);
 		while (matcher.find()) {
@@ -274,7 +80,7 @@ public class CoreJavaCode {
 			}
 			classInfos.add(classInfo);
 		}
-		
+
 
 		//Handle variables
 		matcher = Pattern.compile(RegularExpressions.VARIABLE_REGEX).matcher(input);
@@ -297,9 +103,9 @@ public class CoreJavaCode {
 				ClassInfo classInfo = classInfos.get(classIndex);
 				classInfo.getVariableInfoList().add(varInfo);
 			}
-			
+
 		}
-		
+
 		//handle methods
 		matcher = Pattern.compile(RegularExpressions.FUNCTION_REGEX).matcher(input);
 		while (matcher.find()) {
@@ -313,11 +119,34 @@ public class CoreJavaCode {
 			classInfo.getMethodInfoList().add(methodInfo);
 		}
 		
+		String result = "";
+		Collections.sort(classInfos, new Comparator<ClassInfo>() {
+			@Override
+			public int compare(ClassInfo o1, ClassInfo o2) {
+				return o1.getStartIndex() - o2.getStartIndex();
+			}
+		});
+		int beforeIndex = 0;
 		for (int i = 0; i < classInfos.size(); i++) {
 			ClassInfo info = classInfos.get(i);
-			System.out.println(info.convertJSONObject());
+			int startIndex = info.getStartIndex();
+			String sub = input.substring(beforeIndex, startIndex + 1);
+			result += sub;
+			result += "\n" + info.convertJSONObject() + "\n";
+			
+			beforeIndex = startIndex + 1;
+			if (i == classInfos.size() - 1) {
+				sub = input.substring(beforeIndex, input.length());
+				result += sub;
+			}
 		}
+		
+		return result;
 
+	}
+	
+	public void reset() {
+		classInfos = new ArrayList<ClassInfo>();
 	}
 
 }

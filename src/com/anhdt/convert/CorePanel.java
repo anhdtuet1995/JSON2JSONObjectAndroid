@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.anhdt.convert.core.CoreJSONInput;
+import com.anhdt.convert.core.CoreJavaCode;
 
 public class CorePanel extends JPanel {
 	
@@ -28,10 +29,10 @@ public class CorePanel extends JPanel {
     private JTextArea source;
     private JTextArea result;
     private JButton convertBtn;
-    private CoreJSONInput core;
+    private CoreJavaCode core;
     public CorePanel() {
     	
-    	core = new CoreJSONInput();
+    	core = new CoreJavaCode();
     	
     	panelSource = new JPanel(new BorderLayout());
     	labelSource = new JLabel("Enter JSON: ");
@@ -56,10 +57,8 @@ public class CorePanel extends JPanel {
 				String sourceData = source.getText();
 				if (sourceData != null && sourceData.length() > 0) {
 					try {
-						JSONObject jsonObject = new JSONObject(sourceData);
-						core.jsonToJSONObject(jsonObject);
-						result.setText(core.getProcessResult());
-					} catch (JSONException ex) {
+						result.setText(core.getResult(sourceData));
+					} catch (Exception ex) {
 						JOptionPane.showMessageDialog(null, "Something has wrong with your JSON!!!");
 					}
 				} else {
