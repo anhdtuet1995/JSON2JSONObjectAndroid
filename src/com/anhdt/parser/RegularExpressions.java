@@ -23,7 +23,7 @@ public class RegularExpressions {
 	public final static String EXTEND_CLASS_REGEX = "extends\\s+(\\w+)\\s*";
 	
 	//format: public String getLogType(
-	public final static String FUNCTION_REGEX = MODIFIERS + "(\\w+)\\s+(\\w+)\\s*\\(";
+	public final static String FUNCTION_REGEX = MODIFIERS + "([a-zA-Z_0-9<>\\[\\]]+)\\s+(\\w+)\\s*\\(";
 	
 	public final static String DOUBLE_QUOTES_REGEX = "\"(\\w+)\"";
 }

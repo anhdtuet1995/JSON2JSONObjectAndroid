@@ -27,7 +27,7 @@ public class Main {
                     ex.printStackTrace();
                 }
 
-                JFrame frame = new JFrame("Convert JSON to JSONObject Android");
+                JFrame frame = new JFrame("Convert Java Class (Gson) to JSONObject Android");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new CorePanel());
                 frame.pack();

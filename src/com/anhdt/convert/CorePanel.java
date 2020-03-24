@@ -35,7 +35,7 @@ public class CorePanel extends JPanel {
     	core = new CoreJavaCode();
     	
     	panelSource = new JPanel(new BorderLayout());
-    	labelSource = new JLabel("Enter JSON: ");
+    	labelSource = new JLabel("Enter Java code: ");
     	source = new JTextArea(40, 50);
     	labelSource.setLabelFor(source);
     	panelSource.add(labelSource, BorderLayout.NORTH);

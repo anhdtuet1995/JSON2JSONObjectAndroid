@@ -60,7 +60,25 @@ public class CoreJavaCode {
 		}
 		return classIndex;
 	}
-
+	
+	public boolean checkGetVariableFunction(ClassInfo info, VariableInfo varInfo) {
+		for (MethodInfo methodInfo: info.getMethodInfoList()) {
+			if (varInfo.getFunctionName().equals(methodInfo.getMethodName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkSetVariableFunction(ClassInfo info, VariableInfo varInfo) {
+		for (MethodInfo methodInfo: info.getMethodInfoList()) {
+			if (varInfo.setFunctionName().equals(methodInfo.getMethodName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public String getResult(String input) {
 
 		//Handle class
@@ -115,6 +133,7 @@ public class CoreJavaCode {
 			String methodName = matcher.group(4);
 			methodInfo.setMethodName(methodName);
 			methodInfo.setMethodType(methodType);
+			System.out.println(methodName);
 			ClassInfo classInfo = classInfos.get(classIndex);
 			classInfo.getMethodInfoList().add(methodInfo);
 		}
@@ -133,7 +152,14 @@ public class CoreJavaCode {
 			String sub = input.substring(beforeIndex, startIndex + 1);
 			result += sub;
 			result += "\n" + info.convertJSONObject() + "\n";
-			
+			for (VariableInfo varInfo: info.getVariableInfoList()) {
+				if (!checkGetVariableFunction(info, varInfo)) {
+					result += "\n" + varInfo.generateGetFunction() + "\n";
+				}
+				if (!checkSetVariableFunction(info, varInfo)) {
+					result += "\n" + varInfo.generateSetFunction() + "\n";
+				}
+			}
 			beforeIndex = startIndex + 1;
 			if (i == classInfos.size() - 1) {
 				sub = input.substring(beforeIndex, input.length());

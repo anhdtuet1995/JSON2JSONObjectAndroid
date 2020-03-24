@@ -78,9 +78,7 @@ public class ClassInfo {
 				case Utils.INT_TYPE:
 				case Utils.LONG_TYPE:
 				case Utils.DOUBLE_TYPE:
-				case Utils.BOOLEAN_TYPE:
-				case Utils.STRING_TYPE :
-					builder.append("\n\t" + info.getVarType() + " " + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\");");
+					builder.append("\n\t" + info.getVarType() + " " + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\", 0);");
 					if (varJsonNodes.size() > 1) {
 						for (int i = 1; i < varJsonNodes.size(); i++) {
 							String otherName = varJsonNodes.get(i);
@@ -89,7 +87,39 @@ public class ClassInfo {
 							} else {
 								builder.append(" else if (jsonObject.has(\"" + otherName + "\")) {");
 							}
-							builder.append("\n\t\t" + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\");");
+							builder.append("\n\t\t" + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\", 0);");
+							builder.append("\n\t}");
+						}
+					}
+					builder.append("\n\tthis." + info.getVarName() + " = " + info.getVarName() + ";");
+					break;
+				case Utils.BOOLEAN_TYPE:
+					builder.append("\n\t" + info.getVarType() + " " + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\", false);");
+					if (varJsonNodes.size() > 1) {
+						for (int i = 1; i < varJsonNodes.size(); i++) {
+							String otherName = varJsonNodes.get(i);
+							if (i == 1) {
+								builder.append("\n\tif (jsonObject.has(\"" + otherName + "\")) {");
+							} else {
+								builder.append(" else if (jsonObject.has(\"" + otherName + "\")) {");
+							}
+							builder.append("\n\t\t" + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\", false);");
+							builder.append("\n\t}");
+						}
+					}
+					builder.append("\n\tthis." + info.getVarName() + " = " + info.getVarName() + ";");
+					break;
+				case Utils.STRING_TYPE :
+					builder.append("\n\t" + info.getVarType() + " " + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\", \"\");");
+					if (varJsonNodes.size() > 1) {
+						for (int i = 1; i < varJsonNodes.size(); i++) {
+							String otherName = varJsonNodes.get(i);
+							if (i == 1) {
+								builder.append("\n\tif (jsonObject.has(\"" + otherName + "\")) {");
+							} else {
+								builder.append(" else if (jsonObject.has(\"" + otherName + "\")) {");
+							}
+							builder.append("\n\t\t" + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\", \"\");");
 							builder.append("\n\t}");
 						}
 					}
@@ -130,7 +160,7 @@ public class ClassInfo {
 					builder.append("\n\tthis." + info.getVarName() + " = " + listName + ";");
 					break;
 				case Utils.FLOAT_TYPE:
-					builder.append("\n\tfloat " + info.getVarName() + " = (float) jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\");");
+					builder.append("\n\tfloat " + info.getVarName() + " = (float) jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\", 0);");
 					if (varJsonNodes.size() > 1) {
 						for (int i = 1; i < varJsonNodes.size(); i++) {
 							String otherName = varJsonNodes.get(i);
@@ -139,7 +169,7 @@ public class ClassInfo {
 							} else {
 								builder.append(" else if (jsonObject.has(\"" + otherName + "\")) {");
 							}
-							builder.append("\n\t\t" + info.getVarName() + " = (float) jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\");");
+							builder.append("\n\t\t" + info.getVarName() + " = (float) jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\", 0);");
 							builder.append("\n\t}");
 						}
 					}
@@ -175,9 +205,15 @@ public class ClassInfo {
 			case Utils.INT_TYPE:
 			case Utils.LONG_TYPE:
 			case Utils.DOUBLE_TYPE:
+				builder.append("\n\t\t" + currentType + " " + currentName + " = " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +", 0);");
+				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
+				break;
 			case Utils.BOOLEAN_TYPE:
+				builder.append("\n\t\t" + currentType + " " + currentName + " = " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +", false);");
+				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
+				break;
 			case Utils.STRING_TYPE:
-				builder.append("\n\t\t" + currentType + " " + currentName + " = " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +");");
+				builder.append("\n\t\t" + currentType + " " + currentName + " = " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +", \"\");");
 				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
 				break;
 			case Utils.OBJECT_TYPE:
@@ -185,7 +221,7 @@ public class ClassInfo {
 				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
 				break;
 			case Utils.FLOAT_TYPE:
-				builder.append("\n\t\t" + currentType + " " + currentName + " = (float) " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +");");
+				builder.append("\n\t\t" + currentType + " " + currentName + " = (float) " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +", 0);");
 				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
 				break;
 			case Utils.LIST_TYPE:

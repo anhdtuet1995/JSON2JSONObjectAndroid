@@ -24,7 +24,7 @@ public class Utils {
 			return BOOLEAN_TYPE;
 		} else if (varType.contains("List<") || varType.contains("ArrayList<")) {
 			return LIST_TYPE;
-		} else if (varType.equals("float")) {
+		} else if (varType.equals("float") || varType.equals("Float")) {
 			return FLOAT_TYPE;
 		} else {
 			return OBJECT_TYPE;
@@ -34,7 +34,7 @@ public class Utils {
 	public static String getJSONObjectFunction(String varType) {
 		if (varType.equals("Integer") || varType.equals("int")) {
 			return "optInt";
-		} else if (varType.equals("float")) {
+		} else if (varType.equals("float") || varType.equals("Float")) {
 			return "optDouble";
 		} else if (varType.equals("String")) {
 			return "optString";
