@@ -140,7 +140,7 @@ public class ClassInfo {
 							builder.append("\n\t}");
 						}
 					}
-					builder.append("\n\tif("+info.getVarName()+"!=null) {");
+					builder.append("\n\tif ("+info.getVarName()+" != null) {");
 					builder.append("\n\t\tthis." + info.getVarName() + " = new " + info.getVarType() + "(" + info.getVarName() + ");");
 					builder.append("\n\t}");
 					break;
@@ -158,9 +158,12 @@ public class ClassInfo {
 							builder.append("\n\t}");
 						}
 					}
+					builder.append("\n\tif("+info.getVarName()+"!=null) {");
+					
 					String listName = info.getVarName() + "List";
 					traversalListDepth(builder, info.getVarType(), info.getVarName(), listName);
 					builder.append("\n\tthis." + info.getVarName() + " = " + listName + ";");
+					builder.append("\n\t}");
 					break;
 				case Utils.FLOAT_TYPE:
 					builder.append("\n\tfloat " + info.getVarName() + " = (float) jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\", 0);");
@@ -220,7 +223,7 @@ public class ClassInfo {
 				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
 				break;
 			case Utils.OBJECT_TYPE:
-				builder.append("\n\t\tJSONObject object = " + varName+"."+Utils.getJSONObjectFunction(currentType)+"(" + countVar +"));");
+				builder.append("\n\t\tJSONObject object = " + varName+"."+Utils.getJSONObjectFunction(currentType)+"(" + countVar +");");
 				builder.append("\n\t\tif (object!=null) {"); 
 				builder.append("\n\t\t\t" + currentType + " " + currentName + " = new " + currentType + "(object);");
 				builder.append("\n\t\t\t" + listName + ".add(" + currentName + ");");
