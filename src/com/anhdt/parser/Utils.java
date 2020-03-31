@@ -45,9 +45,9 @@ public class Utils {
 		} else if (varType.equals("Boolean") || varType.equals("boolean")) {
 			return "optBoolean";
 		} else if (varType.contains("List<") || varType.contains("ArrayList<")) {
-			return "getJSONArray";
+			return "optJSONArray";
 		} else {
-			return "getJSONObject";
+			return "optJSONObject";
 		}
 	}
 	

@@ -135,11 +135,14 @@ public class ClassInfo {
 							} else {
 								builder.append(" else if (jsonObject.has(\"" + otherName + "\")) {");
 							}
+							
 							builder.append("\n\t\t" + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + otherName + "\");");
 							builder.append("\n\t}");
 						}
 					}
-					builder.append("\n\tthis." + info.getVarName() + " = new " + info.getVarType() + "(" + info.getVarName() + ");");
+					builder.append("\n\tif("+info.getVarName()+"!=null) {");
+					builder.append("\n\t\tthis." + info.getVarName() + " = new " + info.getVarType() + "(" + info.getVarName() + ");");
+					builder.append("\n\t}");
 					break;
 				case Utils.LIST_TYPE:
 					builder.append("\n\tJSONArray " + info.getVarName() + " = jsonObject." + Utils.getJSONObjectFunction(info.getVarType()) + "(\"" + name + "\");");
@@ -217,8 +220,11 @@ public class ClassInfo {
 				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
 				break;
 			case Utils.OBJECT_TYPE:
-				builder.append("\n\t\t" + currentType + " " + currentName + " = new " + currentType + "(" + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +"));");
-				builder.append("\n\t\t" + listName + ".add(" + currentName + ");");
+				builder.append("\n\t\tJSONObject object = " + varName+"."+Utils.getJSONObjectFunction(currentType)+"(" + countVar +"));");
+				builder.append("\n\t\tif (object!=null) {"); 
+				builder.append("\n\t\t\t" + currentType + " " + currentName + " = new " + currentType + "(object);");
+				builder.append("\n\t\t\t" + listName + ".add(" + currentName + ");");
+				builder.append("\n\t\t}");
 				break;
 			case Utils.FLOAT_TYPE:
 				builder.append("\n\t\t" + currentType + " " + currentName + " = (float) " + varName + "." + Utils.getJSONObjectFunction(currentType) + "(" + countVar +", 0);");
