@@ -105,8 +105,10 @@ public class CoreJavaCode {
 		while (matcher.find()) {
 			int classIndex = getClassIndexContainsVariable(matcher.start());
 			VariableInfo varInfo = new VariableInfo();
-			String varType = matcher.group(14);
-			String varName = matcher.group(15);
+			String varType = matcher.group(15);
+			String varName = matcher.group(16);
+			System.out.println("Var Type: " + varType);
+			System.out.println("Var Name: " + varName);
 			varInfo.setVarName(varName);
 			varInfo.setVarType(varType);
 			String varFull = matcher.group();
@@ -117,6 +119,7 @@ public class CoreJavaCode {
 				Matcher matcher2 = Pattern.compile(RegularExpressions.DOUBLE_QUOTES_REGEX).matcher(seralizableListStr);
 				while (matcher2.find()) {
 					varInfo.getVarJsonNodes().add(matcher2.group(1));
+					System.out.println("Name: " + matcher2.group(1));
 				}
 				ClassInfo classInfo = classInfos.get(classIndex);
 				classInfo.getVariableInfoList().add(varInfo);

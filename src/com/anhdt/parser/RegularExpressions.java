@@ -8,10 +8,11 @@ public class RegularExpressions {
 	//Format: @SerializedName("status")
 	public final static String ANOTATION_REGEX_CASE_1 = "@(\\w+)\\(\\\"(\\w+)\\\"\\)";
 	public final static String ANOTATION_REGEX_CASE_3 = "@(\\w+)\\s*\\(\\s*\\w+\\s*=\\s*\"\\w+\"\\s*\\)";
+	public final static String ANOTATION_REGEX_CASE_4 = "@(\\w+)\\s*\\(\\s*\\w+\\s*=\\s*\"\\w+\"\\s*,\\s*\\w+\\s*=\\s*\\\"\\w+\\\"\\s*\\)";
 	//Format: @SerializedName(value="lst_group_token", alternate={"list", "lst_token_receive"})
 	public final static String ANOTATION_REGEX_CASE_0 = "@(\\w+)\\s*\\(\\s*(\\w)+\\s*=\\s*\\\"(\\w+)\\\"\\s*,\\s*\\w+\\s*=\\s*\\{\\s*\\\"(\\w+)\\\"\\s*(\\s*,\\s*\\\"\\w+\\\")*\\}\\)";
 	
-	public final static String ANNOTATION_REGEX = "(" + ANOTATION_REGEX_CASE_0 + "|" + ANOTATION_REGEX_CASE_3 + "|" + ANOTATION_REGEX_CASE_1 +"|" + ANOTATION_REGEX_CASE_2 + ")";
+	public final static String ANNOTATION_REGEX = "(" + ANOTATION_REGEX_CASE_0 + "|" + ANOTATION_REGEX_CASE_4 + "|" + ANOTATION_REGEX_CASE_3 + "|" + ANOTATION_REGEX_CASE_1 +"|" + ANOTATION_REGEX_CASE_2 + ")";
 	public final static String ANNOTATIONS_REGEX = "(" + ANNOTATION_REGEX + "\\s+)+" ;
 	public final static String MODIFIERS = "((final|volatile|transient|static|public|private|protected)\\s+)+";
 	

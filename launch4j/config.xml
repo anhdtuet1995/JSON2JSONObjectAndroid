@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\anansaj\Desktop\Demo_Ver1.1.jar</jar>
+  <outfile>C:\Users\anansaj\Desktop\Tool\ConvertTool1.1.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon></icon>
+  <singleInstance>
+    <mutexName>Convert Tool</mutexName>
+    <windowTitle>Convert Tool</windowTitle>
+  </singleInstance>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.1.0.0</fileVersion>
+    <txtFileVersion>1.1.0.0</txtFileVersion>
+    <fileDescription>ConvertTool</fileDescription>
+    <copyright>Dao Tuan Anh (daotuananh02@vccorp.vn)</copyright>
+    <productVersion>1.1.0.0</productVersion>
+    <txtProductVersion>1.1.0.0</txtProductVersion>
+    <productName>ConvertTool</productName>
+    <companyName>Dao Tuan Anh (daotuananh02@vccorp.vn)</companyName>
+    <internalName>ConvertTool</internalName>
+    <originalFilename>ConvertTool.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+</launch4jConfig>
